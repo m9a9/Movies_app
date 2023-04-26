@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/core/utils/styles.dart';
+import 'package:movies_app/features/Top_Movies/presentation/views/widgets/home_page_view_body.dart';
 
 class HomePageView extends StatelessWidget {
   const HomePageView({super.key});
@@ -8,28 +10,12 @@ class HomePageView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
-        title: const Text(
-          'MoviesApp',
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins'),
-        ),
+        title: Text('MoviesApp', style: Styles.style20),
       ),
       body: const HomePageViewBody(),
-    );
-  }
-}
-
-class HomePageViewBody extends StatelessWidget {
-  const HomePageViewBody({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('MoviesApp'),
     );
   }
 }
