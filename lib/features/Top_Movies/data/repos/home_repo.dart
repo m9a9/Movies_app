@@ -8,5 +8,5 @@ abstract class HomeRepo {
   Future<Either<Failures, List<Movie>>> fetchNowPlaying();
   Future<Either<Failures, List<Genre>>> fetchGenreList();
   Future<Either<Failures, List<Person>>> fetchTrendingActors();
-  Future<Either<Failures, List<Movie>>> fetchMoviesByGenre();
+  Future<Either<Failures, List<Movie>>> fetchMoviesByGenre(int id);
 }

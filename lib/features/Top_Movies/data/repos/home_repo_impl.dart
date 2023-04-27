@@ -12,27 +12,57 @@ class HomeRepoImpl implements HomeRepo {
 
   HomeRepoImpl(this.apiService);
   @override
-  Future<Either<Failures, List<Genre>>> fetchGenreList() {
-    // TODO: implement fetchGenreList
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failures, List<Movie>>> fetchMoviesByGenre() {
-    // TODO: implement fetchMoviesByGenre
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<Failures, List<Movie>>> fetchNowPlaying() async {
+  Future<Either<Failures, List<Genre>>> fetchGenreList() async {
     try {
-      var data = await apiService.get(endPoint: 'movie/now_playing');
+      var data = await apiService.get(endPoint: 'genre/movie/list?');
+
+      List<Genre> genres = [];
+      for (var item in data['genres']) {
+        genres.add(Genre.fromJson(item));
+      }
+      return right(genres);
+    } on Exception catch (e) {
+      if (e is DioError) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<Movie>>> fetchMoviesByGenre(int id) async {
+    try {
+      var data =
+          await apiService.get(endPoint: 'discover/movie?with_genres=$id&');
       List<Movie> movies = [];
       for (var item in data['results']) {
         try {
           movies.add(Movie.fromJson(item));
         } catch (e) {
+          print(e.toString());
+        }
+      }
+      return Right(movies);
+    } catch (e) {
+      if (e is DioError) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<Movie>>> fetchNowPlaying() async {
+    try {
+      var data = await apiService.get(endPoint: 'movie/now_playing?');
+      List<Movie> movies = [];
+      for (var item in data['results']) {
+        try {
           movies.add(Movie.fromJson(item));
+        } catch (e) {
+          print(e.toString());
         }
       }
       return Right(movies);
