@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/core/utils/styles.dart';
-import 'package:movies_app/features/Top_Movies/presentation/views/playing_now_view.dart';
+import 'package:movies_app/features/Top_Movies/presentation/views/widgets/genre_listView.dart';
 import 'package:movies_app/features/Top_Movies/presentation/views/widgets/top_movies_listView.dart';
 import 'package:movies_app/features/Top_Movies/presentation/views/widgets/trending_actors_listView.dart';
 
@@ -17,7 +17,7 @@ class HomePageViewBody extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          const PlayingNowView(),
+          const GenerListView(),
           const SizedBox(
             height: 10,
           ),

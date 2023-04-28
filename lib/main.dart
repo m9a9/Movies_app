@@ -5,7 +5,6 @@ import 'package:movies_app/core/utils/api_service.dart';
 import 'package:movies_app/core/utils/observer.dart';
 import 'package:movies_app/features/Top_Movies/data/repos/home_repo_impl.dart';
 import 'package:movies_app/features/Top_Movies/presentation/manager/TopMovies_Cubit/top_movies_cubit.dart';
-import 'package:movies_app/features/Top_Movies/presentation/manager/geners_Cubit/geners_cubit.dart';
 import 'package:movies_app/features/Top_Movies/presentation/views/home_page_view.dart';
 
 void main() {
@@ -30,15 +29,6 @@ class MoviesApp extends StatelessWidget {
               ),
             ),
           )..fetchMovies(),
-        ),
-        BlocProvider(
-          create: (context) => GenersCubit(
-            HomeRepoImpl(
-              ApiService(
-                Dio(),
-              ),
-            ),
-          )..fetchGeners(),
         ),
       ],
       child: const MaterialApp(
