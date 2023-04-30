@@ -3,11 +3,13 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movies_app/features/Top_Movies/data/model/genre_model.dart';
 import 'package:movies_app/features/Top_Movies/presentation/manager/geners_Cubit/geners_cubit.dart';
 import 'package:movies_app/features/Top_Movies/presentation/views/widgets/top_movies_listView_item.dart';
 
 import '../../../../../core/utils/api_service.dart';
+import '../../../../../core/utils/app_router.dart';
 import '../../../../../core/utils/styles.dart';
 import '../../../data/repos/home_repo_impl.dart';
 import '../../manager/MoviesByGenre_Cubit/movies_by_genre_cubit.dart';
@@ -126,48 +128,55 @@ class _GenerListViewState extends State<GenerListView> {
                       scrollDirection: Axis.horizontal,
                       itemCount: state.movies.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 4, vertical: 4),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 3.5,
-                                width: MediaQuery.of(context).size.width / 2.2,
-                                child: TopMoviesListViewItem(
-                                  movieName: '',
-                                  imageUrl:
-                                      'https://image.tmdb.org/t/p/original/${state.movies[index].backdropPath}',
+                        return GestureDetector(
+                          onTap: () {
+                            GoRouter.of(context).push(AppRouter.kMovieDetails,
+                                extra: state.movies[index]);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 4, vertical: 4),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 3.5,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.2,
+                                  child: TopMoviesListViewItem(
+                                    movieName: '',
+                                    imageUrl:
+                                        'https://image.tmdb.org/t/p/original/${state.movies[index].backdropPath}',
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                state.movies[index].originalTitle!.substring(
-                                    0,
-                                    min(
-                                        state.movies[index].originalTitle!
-                                            .length,
-                                        18)),
-                                style: Styles.style18,
-                                overflow: TextOverflow.clip,
-                              ),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.rate_review_rounded,
-                                    color: Colors.amber,
-                                  ),
-                                  Text(
-                                      'Rating ${state.movies[index].voteAverage!}'),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Text(
-                                      ' ${state.movies[index].voteCount!} vote'),
-                                ],
-                              )
-                            ],
+                                Text(
+                                  state.movies[index].originalTitle!.substring(
+                                      0,
+                                      min(
+                                          state.movies[index].originalTitle!
+                                              .length,
+                                          18)),
+                                  style: Styles.style18,
+                                  overflow: TextOverflow.clip,
+                                ),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.rate_review_rounded,
+                                      color: Colors.amber,
+                                    ),
+                                    Text(
+                                        'Rating ${state.movies[index].voteAverage!}'),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                        ' ${state.movies[index].voteCount!} vote'),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         );
                       }),

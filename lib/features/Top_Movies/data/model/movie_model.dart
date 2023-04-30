@@ -27,10 +27,6 @@ class Movie {
       this.voteAverage});
 
   factory Movie.fromJson(dynamic json) {
-    if (json == null) {
-      return Movie();
-    }
-
     return Movie(
         backdropPath: json['backdrop_path'],
         id: json['id'],

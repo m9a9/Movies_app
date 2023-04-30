@@ -1,24 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../manager/TrendingActors_Cubit/trending_actors_cubit.dart';
+import 'actor_item.dart';
 
 class TrendingActorsListView extends StatelessWidget {
   const TrendingActorsListView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: ListView.builder(
-        itemCount: 10,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return const CircleAvatar(
-              radius: 45,
-              backgroundColor: Colors.deepOrange,
-              backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/photo-1681654489724-df39cc108524?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'),
-              child: Text(' Name'));
-        },
-      ),
+    return BlocBuilder<TrendingActorsCubit, TrendingActorsState>(
+      builder: (context, state) {
+        if (state is TrendingActorsSuccess) {
+          return AspectRatio(
+            aspectRatio: 4 / 1.5,
+            child: ListView.builder(
+              itemCount: state.Actors.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return BuildActorItem(
+                  imageUrl:
+                      'https://image.tmdb.org/t/p/w200${state.Actors[index].profilePath}',
+                  actorName: '${state.Actors[index].name}',
+                );
+              },
+            ),
+          );
+        } else if (state is TrendingActorsFailure) {
+          return const Center(
+            child: Text('Something went wrong,try later'),
+          );
+        }
+        return const Center(
+          child: CircularProgressIndicator(
+            color: Colors.deepOrange,
+          ),
+        );
+      },
     );
   }
 }

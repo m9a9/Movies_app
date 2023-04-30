@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:movies_app/core/utils/api_service.dart';
+import 'package:movies_app/features/Top_Movies/data/model/cast_list_model.dart';
 import 'package:movies_app/features/Top_Movies/data/model/person_model.dart';
 import 'package:movies_app/features/Top_Movies/data/model/movie_model.dart';
 import 'package:movies_app/features/Top_Movies/data/model/genre_model.dart';
@@ -76,8 +77,48 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<Either<Failures, List<Person>>> fetchTrendingActors() {
-    // TODO: implement fetchTrendingActors
-    throw UnimplementedError();
+  Future<Either<Failures, List<Person>>> fetchTrendingActors() async {
+    try {
+      var data = await apiService.get(endPoint: 'trending/person/week?');
+      List<Person> person = [];
+      for (var item in data['results']) {
+        try {
+          person.add(Person.fromJson(item));
+        } catch (e) {
+          print(e.toString());
+        }
+      }
+      return Right(person);
+    } catch (e) {
+      if (e is DioError) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failures, List<Movie>>> fetchSimilarMovies(
+      {required int id}) async {
+    try {
+      var data = await apiService.get(endPoint: 'movie/$id/similar?');
+
+      List<Movie> movie = [];
+      for (var item in data['results']) {
+        try {
+          movie.add(Movie.fromJson(item));
+        } catch (e) {
+          print(e.toString());
+        }
+      }
+      return Right(movie);
+    } catch (e) {
+      if (e is DioError) {
+        return Left(ServerFailure.fromDioError(e));
+      } else {
+        return Left(ServerFailure(e.toString()));
+      }
+    }
   }
 }
