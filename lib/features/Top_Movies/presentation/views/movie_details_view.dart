@@ -11,6 +11,7 @@ class MovieDetailsView extends StatefulWidget {
     required this.movie,
   });
   final Movie movie;
+
   @override
   State<MovieDetailsView> createState() => _MovieDetailsViewState();
 }

@@ -68,40 +68,43 @@ class MovieDetailsViewBody extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              Text(
-                'VoteAverage',
-              ),
-              Text(
-                'VoteCount',
-              ),
-              Text(
-                'popularity',
-              ),
-            ],
+          CustomMovieNumbers(
+            movie: movie,
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const SizedBox(
-                height: 5,
-              ),
-              Text(movie.voteAverage ?? ''),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(movie.voteCount.toString()),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(movie.popularity.toString()),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: const [
+          //     Text(
+          //       'VoteAverage',
+          //     ),
+          //     Text(
+          //       'VoteCount',
+          //     ),
+          //     Text(
+          //       'popularity',
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(
+          //   height: 5,
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     const SizedBox(
+          //       height: 5,
+          //     ),
+          //     Text(movie.voteAverage ?? ''),
+          //     const SizedBox(
+          //       height: 5,
+          //     ),
+          //     Text(movie.voteCount.toString()),
+          //     const SizedBox(
+          //       height: 5,
+          //     ),
+          //     Text(movie.popularity.toString()),
+          //   ],
+          // ),
           const SizedBox(
             height: 8,
           ),
@@ -144,6 +147,77 @@ class MovieDetailsViewBody extends StatelessWidget {
             );
           }),
         ],
+      ),
+    );
+  }
+}
+
+class CustomMovieNumbers extends StatelessWidget {
+  const CustomMovieNumbers({super.key, required this.movie});
+  final Movie movie;
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        height: MediaQuery.of(context).size.height / 9,
+        width: MediaQuery.of(context).size.width - 25,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: const Color(0xfffff0f3),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'VoteAverage',
+                    style: Styles.style18,
+                  ),
+                  Text(
+                    'VoteCount',
+                    style: Styles.style18,
+                  ),
+                  Text(
+                    'popularity',
+                    style: Styles.style18,
+                  ),
+                ],
+              ),
+            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  movie.voteAverage ?? '',
+                  style: Styles.style18,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  movie.voteCount.toString(),
+                  style: Styles.style18,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  movie.popularity.toString(),
+                  style: Styles.style18,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
